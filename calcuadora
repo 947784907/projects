@@ -1,0 +1,155 @@
+
+
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora Estilosa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Raleway', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: radial-gradient(circle at top left, #5ee7df, #b490ca);
+      color: #ffffff;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+
+    input[type="number"] {
+      width: 100px;
+      margin: 10px;
+      padding: 10px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 10px;
+      text-align: center;
+      background: #ffffffdd;
+      color: #333;
+    }
+
+    input[type="button"] {
+      margin: 10px 5px;
+      padding: 10px 20px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    input[type="button"]:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+      box-shadow: 0 0 10px #fff5;
+    }
+
+    #result, #historico {
+      margin-top: 20px;
+      font-size: 1.4em;
+      color: #fff;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      font-style: italic;
+      color: #eeeeeeaa;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculadora Fantástica</h1>
+  <div class="calculator">
+    <input type="number" id="txn1" placeholder="Número 1">
+    <input type="number" id="txn2" placeholder="Número 2"><br>
+    <input type="button" value="+" onclick="calculate('+')">
+    <input type="button" value="−" onclick="calculate('-')">
+    <input type="button" value="×" onclick="calculate('*')">
+    <input type="button" value="÷" onclick="calculate('/')">
+    <input type="button" value="Limpar" onclick="limpar()">
+    <div id="result">Resultado: </div>
+    <div id="historico"><strong>Histórico:</strong></div>
+  </div>
+  <footer>Desenvolvido com ✨ por Graciano Bumba</footer>
+
+  <script>
+    function calculate(operation) {
+      const txn1 = parseFloat(document.getElementById('txn1').value);
+      const txn2 = parseFloat(document.getElementById('txn2').value);
+      const resultDiv = document.getElementById('result');
+      const historicoDiv = document.getElementById('historico');
+      let result;
+
+      if (isNaN(txn1) || isNaN(txn2)) {
+        resultDiv.innerHTML = 'Por favor, insira dois números válidos.';
+        return;
+      }
+
+      switch (operation) {
+        case '+': result = txn1 + txn2; break;
+        case '-': result = txn1 - txn2; break;
+        case '*': result = txn1 * txn2; break;
+        case '/':
+          if (txn2 === 0) {
+            resultDiv.innerHTML = 'Não é possível dividir por zero.';
+            return;
+          }
+          result = txn1 / txn2;
+          break;
+      }
+
+      resultDiv.innerHTML = 'Resultado: ' + result;
+      historicoDiv.innerHTML += `<br>${txn1} ${operation} ${txn2} = ${result}`;
+    }
+
+    function limpar() {
+      document.getElementById('txn1').value = '';
+      document.getElementById('txn2').value = '';
+      document.getElementById('result').innerHTML = 'Resultado: ';
+      document.getElementById('historico').innerHTML = '<strong>Histórico:</strong>';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (['+', '-', '*', '/'].includes(e.key)) {
+        calculate(e.key);
+      }
+      if (e.key === 'Enter') {
+        calculate('+');
+      }
+    });
+  </script>
+</body>
+</html>
